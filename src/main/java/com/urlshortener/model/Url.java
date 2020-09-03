@@ -1,20 +1,23 @@
 package com.urlshortener.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.redis.core.RedisHash;
 
+import java.io.Serializable;
 import java.util.Date;
 
-@Document
-public class Url {
+@RedisHash("Url")
+public class Url implements Serializable {
+
+
     @Id
-    private String id;
+    private String shortUrl;
 
     private Date createdDate;
 
     private String longUrl;
 
-    private String shortUrl;
+
 
     public Url(){
 
@@ -24,13 +27,6 @@ public class Url {
         this.createdDate = createdDate;
         this.longUrl = longUrl;
         this.shortUrl = shortUrl;
-    }
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Date getCreatedDate() {

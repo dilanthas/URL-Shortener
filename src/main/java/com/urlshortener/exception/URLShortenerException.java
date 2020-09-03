@@ -6,6 +6,7 @@ public class URLShortenerException extends Exception {
 
     public URLShortenerException(String message,int errorCode){
         super(message);
+        this.errorCode = errorCode;
     }
 
     public int getErrorCode() {
