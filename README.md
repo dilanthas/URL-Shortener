@@ -1,11 +1,11 @@
-#URL Shortener
+# URL Shortener
 URL shortener micro service running on docker. Main functionalities are
 
 1. Get short url for given long url
 
 2. Redirects to original url when visiting the short url
 
-#Requirements
+# Requirements
 1. Java
 2. Maven
 3. Docker
