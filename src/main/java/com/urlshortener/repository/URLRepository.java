@@ -1,9 +1,12 @@
 package com.urlshortener.repository;
 
-import com.urlshortener.model.Url;
-import org.springframework.data.repository.CrudRepository;
+public interface URLRepository {
 
-public interface URLRepository extends CrudRepository<Url,String> {
+    Long incrementID();
 
-    Url findByLongUrl(String longUrl);
+    void saveUrl(String shortUrl, String longUrl);
+
+    String getLongUrl(String shortUrl);
+
+    String getShortUrl(String longUrl);
 }

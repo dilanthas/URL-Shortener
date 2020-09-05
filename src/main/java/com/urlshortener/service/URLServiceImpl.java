@@ -2,15 +2,14 @@ package com.urlshortener.service;
 
 import com.urlshortener.converter.UrlConverter;
 import com.urlshortener.exception.URLShortenerException;
-import com.urlshortener.model.Url;
 import com.urlshortener.repository.URLRepository;
+import com.urlshortener.repository.RedisURLRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Optional;
 
 
 @Service
@@ -19,13 +18,11 @@ public class URLServiceImpl implements URLService {
     private static final Logger LOGGER = LoggerFactory.getLogger(URLServiceImpl.class);
 
     private UrlConverter converter;
-    private RandomNumberService randomNumberService;
     private URLRepository urlRepository;
 
     @Autowired
-    public URLServiceImpl(UrlConverter converter, RandomNumberService randomNumberService, URLRepository urlRepository) {
+    public URLServiceImpl(UrlConverter converter, URLRepository urlRepository) {
         this.converter = converter;
-        this.randomNumberService = randomNumberService;
         this.urlRepository = urlRepository;
     }
 
@@ -34,21 +31,19 @@ public class URLServiceImpl implements URLService {
 
         LOGGER.info("Checking for already encoded url :" + longUrl);
         // First check whether the url already exists
-        Url url = urlRepository.findByLongUrl(longUrl);
+        String shortUrl = urlRepository.getShortUrl(longUrl);
 
-        if (url != null) {
+        if (shortUrl != null) {
             LOGGER.info("Url already exists in the database :" + longUrl);
-            return localUrl + "/" + url.getShortUrl();
+            return localUrl + "/" + shortUrl;
         } else {
-
-            LOGGER.info("Url does not found in the database. Converting url:" + longUrl);
-            String encodedUrl = converter.convertToShortUrl(randomNumberService.getRandomNumber());
+            Long id = urlRepository.incrementID();
+            LOGGER.info("Url was not found in the database. Converting url:" + longUrl);
+            String encodedUrl = converter.convertToShortUrl(id);
 
             LOGGER.info("Long url :" + longUrl + ",Converted to:" + encodedUrl);
-            //String baseUrl = getBaseUrlFromLocalUrl(localUrl);
 
-            Url newUrl = new Url(new Date(), longUrl, encodedUrl);
-            urlRepository.save(newUrl);
+            urlRepository.saveUrl(encodedUrl,longUrl);
 
             return localUrl + "/" + encodedUrl;
         }
@@ -57,24 +52,13 @@ public class URLServiceImpl implements URLService {
 
     @Override
     public String getLongUrl(String shortUrl) throws URLShortenerException {
-        Optional<Url> urlOpt = urlRepository.findById(shortUrl);
-        if(urlOpt.isPresent()){
-            return urlOpt.get().getLongUrl();
-        }else{
+        String longUrl = urlRepository.getLongUrl(shortUrl);
+        if(longUrl == null){
             throw new URLShortenerException("URL does not exists: "+shortUrl,404);
+        }else{
+            return longUrl;
         }
 
     }
 
-
-    private String getBaseUrlFromLocalUrl(String localURL) {
-        String[] addressComponents = localURL.split("/");
-        // remove the endpoint (last index)
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < addressComponents.length - 1; ++i) {
-            sb.append(addressComponents[i]);
-        }
-        sb.append('/');
-        return sb.toString();
-    }
 }

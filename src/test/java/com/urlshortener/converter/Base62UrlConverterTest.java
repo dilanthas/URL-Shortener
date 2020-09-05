@@ -1,4 +1,4 @@
-package com.urlshortener.service;
+package com.urlshortener.converter;
 
 
 import com.urlshortener.converter.Base62UrlConverter;
@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-public class UrlConverterTest {
+public class Base62UrlConverterTest {
 
     private Base62UrlConverter converter;
 
