@@ -35,6 +35,12 @@ public class URLController {
         return "Hello!";
     }
 
+    /**
+     * Endpoint to get the short url for a given long url
+     * @param criteriaDTO
+     * @param request
+     * @return
+     */
     @PostMapping(value = "/shortenurl", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getShortenUrl(@RequestBody UrlShortenerCriteriaDTO criteriaDTO, HttpServletRequest request) {
         UrlValidator validator = new UrlValidator();
@@ -55,10 +61,17 @@ public class URLController {
         return new ResponseEntity<>("Incorrect URL format:"+longUrl, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Endpoint to get the long url for given short url
+     * @param url
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/{url}", method= RequestMethod.GET)
     public RedirectView getLongUrl(@PathVariable String url) throws Exception{
         LOGGER.info("Received short url:"+url);
         String longUrl = urlService.getLongUrl(url);
+        // Redirect the user for the given url
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl(longUrl);
         return redirectView;

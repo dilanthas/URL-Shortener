@@ -22,10 +22,6 @@ docker-compose build
 docker-compose up
 ``` 
 
-Once the application started you can test it by going to.
-```
-http://localhost:8080/hello
-```
 Default application port is set to 8080 but you can change it by updating server.port in the application.properties file
 
 # API endpoints

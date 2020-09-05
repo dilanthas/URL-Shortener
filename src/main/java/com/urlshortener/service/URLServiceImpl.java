@@ -23,6 +23,12 @@ public class URLServiceImpl implements URLService {
         this.urlRepository = urlRepository;
     }
 
+    /**
+     * Get short url for the given long url
+     * @param longUrl
+     * @param localUrl
+     * @return
+     */
     @Override
     public String getShortenURL(String longUrl, String localUrl) {
 
@@ -47,6 +53,12 @@ public class URLServiceImpl implements URLService {
 
     }
 
+    /**
+     * Get long url for the given short urls
+     * @param shortUrl
+     * @return
+     * @throws URLShortenerException
+     */
     @Override
     public String getLongUrl(String shortUrl) throws URLShortenerException {
 

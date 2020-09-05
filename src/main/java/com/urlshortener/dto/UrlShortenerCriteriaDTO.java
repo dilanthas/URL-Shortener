@@ -2,7 +2,6 @@ package com.urlshortener.dto;
 
 import com.urlshortener.constant.ErrorConstants;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 

@@ -1,6 +1,8 @@
 package com.urlshortener.converter;
 
-
+/**
+ * Base 62 encoder for url
+ */
 public class Base62UrlConverter implements UrlConverter  {
 
     private static final String allowedString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -19,7 +21,7 @@ public class Base62UrlConverter implements UrlConverter  {
      * Convert the given value to base 62 number and encode them with allowed characters. Length of the encoded string is 7
      *
      * @param value
-     * @return
+     * @return - encoded string
      */
     private String getBase62EncodedString(long value) {
         StringBuilder sb = new StringBuilder();
