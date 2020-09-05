@@ -18,7 +18,7 @@ public class URLExceptionHandler {
 
     @ExceptionHandler(value
             = { URLShortenerException.class })
-    protected ResponseEntity<String> handleWalletException(
+    protected ResponseEntity<String> handleURLException(
             URLShortenerException ex, WebRequest request) {
         HttpStatus status = HttpStatus.valueOf(ex.getErrorCode());
         Map<String, Object> extraInfo = new HashMap<>();

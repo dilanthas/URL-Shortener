@@ -3,13 +3,10 @@ package com.urlshortener.service;
 import com.urlshortener.converter.UrlConverter;
 import com.urlshortener.exception.URLShortenerException;
 import com.urlshortener.repository.URLRepository;
-import com.urlshortener.repository.RedisURLRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 
 @Service
@@ -43,7 +40,7 @@ public class URLServiceImpl implements URLService {
 
             LOGGER.info("Long url :" + longUrl + ",Converted to:" + encodedUrl);
 
-            urlRepository.saveUrl(encodedUrl,longUrl);
+            urlRepository.saveUrl(encodedUrl, longUrl);
 
             return localUrl + "/" + encodedUrl;
         }
@@ -52,10 +49,17 @@ public class URLServiceImpl implements URLService {
 
     @Override
     public String getLongUrl(String shortUrl) throws URLShortenerException {
+
+        LOGGER.info("Checking for short url :" + shortUrl);
         String longUrl = urlRepository.getLongUrl(shortUrl);
-        if(longUrl == null){
-            throw new URLShortenerException("URL does not exists: "+shortUrl,404);
-        }else{
+        if (longUrl == null) {
+            LOGGER.info("URL not found :" + shortUrl);
+
+            throw new URLShortenerException("URL does not exists: " + shortUrl, 404);
+        } else {
+
+            LOGGER.info("Long URL found :" + longUrl);
+
             return longUrl;
         }
 

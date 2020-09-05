@@ -29,6 +29,12 @@ public class URLController {
        this.urlService = urlService;
     }
 
+    @GetMapping(value = "/hello", produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String test() {
+        return "Hello!";
+    }
+
     @PostMapping(value = "/shortenurl", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getShortenUrl(@RequestBody UrlShortenerCriteriaDTO criteriaDTO, HttpServletRequest request) {
         UrlValidator validator = new UrlValidator();

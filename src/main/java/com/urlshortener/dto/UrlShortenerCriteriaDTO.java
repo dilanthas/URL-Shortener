@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 public class UrlShortenerCriteriaDTO {
 
-    @NotNull(message = "Wallet userId" + ErrorConstants.CANNOT_BE_EMPTY)
+    @NotNull(message = "longUrl" + ErrorConstants.CANNOT_BE_EMPTY)
     private String longUrl;
 
     public String getLongUrl() {
