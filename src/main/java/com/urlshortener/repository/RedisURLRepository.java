@@ -24,8 +24,7 @@ public class RedisURLRepository implements URLRepository {
 
     @Override
     public Long incrementID() {
-        Long id = jedis.incr(this.id);
-        return id ;
+        return jedis.incr(this.id);
     }
 
     /**
@@ -42,13 +41,11 @@ public class RedisURLRepository implements URLRepository {
 
     @Override
     public String getLongUrl(String shortUrl) {
-        String url = jedis.hget(this.sUrlKey, shortUrl);
-        return url;
+        return jedis.hget(this.sUrlKey, shortUrl);
     }
 
     @Override
     public String getShortUrl(String longUrl){
-        String url = jedis.hget(this.lUrlKey, longUrl);
-        return url;
+        return jedis.hget(this.lUrlKey, longUrl);
     }
 }
