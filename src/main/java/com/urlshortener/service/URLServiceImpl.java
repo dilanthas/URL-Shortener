@@ -32,19 +32,19 @@ public class URLServiceImpl implements URLService {
     @Override
     public String getShortenURL(String longUrl, String localUrl) {
 
-        LOGGER.info("Checking for already encoded url :" + longUrl);
+        LOGGER.debug("Checking for already encoded url :" + longUrl);
         // First check whether the url already exists
         String shortUrl = urlRepository.getShortUrl(longUrl);
 
         if (shortUrl != null) {
-            LOGGER.info("Url already exists in the database :" + longUrl);
+            LOGGER.debug("Url already exists in the database :" + longUrl);
             return localUrl + "/" + shortUrl;
         } else {
             Long id = urlRepository.incrementID();
-            LOGGER.info("Url was not found in the database. Converting url:" + longUrl);
+            LOGGER.debug("Url was not found in the database. Converting url:" + longUrl);
             String encodedUrl = converter.convertToShortUrl(id);
 
-            LOGGER.info("Long url :" + longUrl + ",Converted to:" + encodedUrl);
+            LOGGER.debug("Long url :" + longUrl + ",Converted to:" + encodedUrl);
 
             urlRepository.saveUrl(encodedUrl, longUrl);
 
@@ -65,12 +65,12 @@ public class URLServiceImpl implements URLService {
         LOGGER.info("Checking for short url :" + shortUrl);
         String longUrl = urlRepository.getLongUrl(shortUrl);
         if (longUrl == null) {
-            LOGGER.info("URL not found :" + shortUrl);
+            LOGGER.warn("URL not found :" + shortUrl);
 
             throw new URLShortenerException("URL does not exists: " + shortUrl, 404);
         } else {
 
-            LOGGER.info("Long URL found :" + longUrl);
+            LOGGER.debug("Long URL found :" + longUrl);
 
             return longUrl;
         }

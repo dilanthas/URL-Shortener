@@ -45,7 +45,7 @@ public class URLController {
     public ResponseEntity<String> getShortenUrl(@RequestBody UrlShortenerCriteriaDTO criteriaDTO, HttpServletRequest request) {
         UrlValidator validator = new UrlValidator();
         String longUrl = criteriaDTO.getLongUrl();
-        LOGGER.info("Received long url:"+longUrl);
+        LOGGER.debug("Received long url:"+longUrl);
 
         if(validator.isValid(longUrl)){
 
@@ -69,7 +69,7 @@ public class URLController {
      */
     @RequestMapping(value = "/{url}", method= RequestMethod.GET)
     public RedirectView getLongUrl(@PathVariable String url) throws Exception{
-        LOGGER.info("Received short url:"+url);
+        LOGGER.debug("Received short url:"+url);
         String longUrl = urlService.getLongUrl(url);
         // Redirect the user for the given url
         RedirectView redirectView = new RedirectView();
